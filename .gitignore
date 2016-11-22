@@ -7,6 +7,7 @@ composer.lock
 
 /config/pswd.php
 /web/assets/build/*
+/web/bin/*
 
 *.save
 *.php~
@@ -20,3 +21,4 @@ composer.lock
 /web/UserProvider.php
 /web/test.php
 /web/BasicAuthControllerProvider.php
+/web/examples.php

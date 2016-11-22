@@ -11,10 +11,15 @@ class Utils {
     }
   }
 
-  static public function dumper($obj, $die = false) {
-    echo '<pre>';
-    print_r($obj);
-    echo '<pre>==============================================<br><br>';
+  static public function dumper($obj, $die = false, $outputStyle = 'html') {
+    if($outputStyle == 'html') {
+      echo '<pre>';
+      print_r($obj);
+      echo '<pre>==============================================<br><br>';
+    } else {
+      print_r($obj);
+      echo "\n==============================================\n\n";
+    }
 
     if($die) {
       exit;

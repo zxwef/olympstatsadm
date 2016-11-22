@@ -11,20 +11,16 @@ global.$ = global.jQuery = $;
 require('bootstrap');
 
 import 'bootstrap/dist/css/bootstrap.css';
-//import "../css/style.css";
 
 let createStore = initialCreateStore;
 
 import * as types from "../constants/ActionTypes";
 import * as actions from '../actions/GamesActions'
 import * as reducers from "../reducers";
-//import GamesListApp from './GamesListApp';
-//import * as components from '../components';
+
 import Login from '../components/login';
 import GamesListItems from '../components/gamesListItems';
 
-/*const reducer = combineReducers(reducers);
-const store = createStore(reducer);*/
 
 // http://redux.js.org/docs/api/applyMiddleware.html
 import remoteActionMiddleware from '../remote-action-middleware';
@@ -39,15 +35,9 @@ export default class App extends React.Component {
   constructor() {
     super();
 
-    /*store.dispatch({
-      type: types.ADD_GAME,
-      state: {
-        games: {}
-      }
-    });*/
-
-    store.dispatch(actions.addGame({}));
+    store.dispatch(actions.setState({}));
     store.dispatch(actions.receiveGames());
+    store.dispatch(actions.receiveCountries());
   }
 
   render() {

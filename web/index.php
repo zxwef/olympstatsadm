@@ -10,6 +10,9 @@ require_once __DIR__.'/../config/bootstrap.php';
 require_once __DIR__.'/utils.php';
 require_once __DIR__.'/UserProvider.php';
 
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\ParameterBag;
+
 use Silex\Route;
 class MyRoute extends Route
 {
@@ -54,6 +57,16 @@ $token = $app['security.token_storage']->getToken();
 if (null !== $token) {
     $user = $token->getUser();
 }
+
+/* Middleware
+*******************************************************************************/
+
+$app->before(function (Request $request) { // Parsing the request body
+    if (0 === strpos($request->headers->get('Content-Type'), 'application/json')) {
+        $data = json_decode($request->getContent(), true);
+        $request->request->replace(is_array($data) ? $data : array());
+    }
+});
 
 /* Routing
 *******************************************************************************/

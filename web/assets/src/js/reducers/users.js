@@ -1,18 +1,11 @@
 import * as types from "../constants/ActionTypes";
-import {Map, List, fromJS} from 'immutable';
-
-var initialState = {
-  games: []
-};
+import {List, Map, fromJS} from 'immutable';
 
 export default function(state = Map(), action) {
-  switch(action.type) {
-    case types.SET_GAMES:
-      return setState(state, action.state);
 
-    case types.CHECK:
-      console.log('check!');
-      return state;
+  switch(action.type) {
+    case types.SET_STATE:
+      return setState(state, action.state);
 
     default:
       return state;

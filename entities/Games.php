@@ -15,7 +15,7 @@ class Games
      *
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\GeneratedValue(strategy="NONE")
      */
     private $id;
 
@@ -27,14 +27,21 @@ class Games
     private $year;
 
     /**
+    * @var string
+    *
+    * @ORM\Column(name="season", type="string", nullable=false)
+    */
+    private $season;
+
+    /**
      * @var integer
      *
      * @ORM\Column(name="countryID", type="integer", nullable=false)
      */
-    private $countryid;
+    private $countryID;
 
     /**
-     * @ORM\OneToOne(targetEntity="Countries")
+     * @ORM\ManyToOne(targetEntity="Countries")
      * @ORM\JoinColumn(name="countryID", referencedColumnName="id")
      */
     private $countries;
@@ -49,11 +56,22 @@ class Games
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="cdate", type="datetime", nullable=false)
+     * @ORM\Column(name="cdate", type="datetime", options={"default":"CURRENT_TIMESTAMP"})
      */
     private $cdate;
 
+      /**
+       * Set id
+       *
+       * @param integer $id
+       * @return Games
+       */
+      public function setId($id)
+      {
+          $this->id = $id;
 
+          return $this;
+      }
 
     /**
      * Get id
@@ -89,26 +107,31 @@ class Games
     }
 
     /**
-     * Set countryid
+     * Set countryID
      *
-     * @param integer $countryid
+     * @param integer $countryID
      * @return Games
      */
-    public function setCountryid($countryid)
+    public function setCountryID($countryID)
     {
-        $this->countryid = $countryid;
+        $this->countryID = $countryID;
 
         return $this;
     }
 
     /**
-     * Get countryid
+     * Get countryID
      *
      * @return integer
      */
-    public function getCountryid()
+    public function getCountryID()
     {
-        return $this->countryid;
+        return $this->countryID;
+    }
+
+    public function setCountry(Countries $country) {
+      $this->countries = $country;
+      return $this;
     }
 
     /**
@@ -133,6 +156,29 @@ class Games
     {
         return $this->city;
     }
+
+      /**
+       * Set season
+       *
+       * @param string $season
+       * @return Games
+       */
+      public function setSeason($season)
+      {
+          $this->season = $season;
+
+          return $this;
+      }
+
+      /**
+       * Get season
+       *
+       * @return string
+       */
+      public function getSeason()
+      {
+          return $this->season;
+      }
 
     /**
      * Set cdate
