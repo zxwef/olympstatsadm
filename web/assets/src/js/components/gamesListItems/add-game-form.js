@@ -21,6 +21,7 @@ export default class addGameForm extends Component {
   }
 
   handleChange(event) {
+    console.info('handleChange');
     let obj = {};
     obj[event.target.name] = event.target.value;
     this.props.setGame(fromJS(obj));
@@ -29,8 +30,8 @@ export default class addGameForm extends Component {
   handleSubmit(event) {  // https://github.com/Lullabot/react_form/blob/master/src/contact-form.jsx
     event.preventDefault();
 
-    var countryName = this.refs.country.state.value;
-
+    //var countryName = this.refs.country.state.value;
+    var countryName = this.props.game.get('country');
     var inputGameCountryWrap = document.getElementById('inputGameCountryWrap')
     var country = this.props.countries.find(elem => elem.get('name') == countryName);
 
@@ -43,7 +44,7 @@ export default class addGameForm extends Component {
           year: _this.props.game.get('year'),
           season: _this.props.game.get('season'),
           country: country.get('id'),
-          city: _this.props.game.get('city'),
+          city: _this.props.game.get('city'), 
         }, resolve);
       })).then(function() {
         _this.props.receiveGames();
@@ -87,7 +88,7 @@ export default class addGameForm extends Component {
                         </div>
                         <div className="form-group">
                           <label htmlFor="" htmlFor="selectGameSeason"></label>
-                          <select name="gameSeason" id="" className="form-control" value={this.props.game.get('season')} onChange={this.handleChange}>
+                          <select name="season" id="" className="form-control" value={this.props.game.get('season')} onChange={this.handleChange}>
                             <option value="summer">Летняя</option>
                             <option value="winter">Зимняя</option>
                           </select>
@@ -96,7 +97,7 @@ export default class addGameForm extends Component {
                       <div className="col-md-6">
                         <div className="form-group" id="inputGameCountryWrap">
                           <label htmlFor="inputGameCountry" className="control-label">Страна</label>
-                          <AutocompleteInput ref="country" items={this.props.countries} value={this.props.game.get('country')} inputName="country"  />
+                          <AutocompleteInput ref="country" items={this.props.countries} entity={this.props.game} inputName="country" setState={this.props.setGame}  />
                         </div>
                         <div className="form-group">
                           <label htmlFor="inputGameCity">Город</label>

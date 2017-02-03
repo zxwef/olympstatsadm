@@ -9,7 +9,6 @@ https://github.com/acdlite/redux-promise
 
 */
 
-
 export function setState(state) {
     return {
       type: types.SET_STATE,
@@ -24,7 +23,7 @@ export function setGames(state) {
     };
 }
 
-export function receiveGames(resolve) {
+export function receiveGames() {
   return {
     meta: {
       remote: true,
@@ -34,12 +33,6 @@ export function receiveGames(resolve) {
     type: types.RECEIVE_GAMES
   };
 }
-
-/*export function getGames() {
-  return {
-    type: types.GET_GAMES
-  };
-}*/
 
 //------------------------------------------------
 
@@ -81,6 +74,25 @@ export function addGame(state, resolve) {
   }
 }
 
+export function deleteGame(id, resolve) {
+  return {
+    type: types.DELETE_GAME,
+    meta: {
+      remote: true,
+      url: 'games/' + id,
+      options: {
+        method: 'delete',
+        headers: {
+          'Content-type': 'application/json'
+        }
+      },
+      resolve: resolve
+    },
+  };
+}
+
+//------------------------------------------------------------------------------
+
 export function receiveCountries() {
   return {
     meta: {
@@ -98,8 +110,60 @@ export function resetGame() {
   };
 }
 
-export function check() {
+//------------------------------------------------------------------------------
+
+export function receiveSports(p = 0) {
   return {
-    type: types.CHECK
+    meta: {
+      remote: true,
+      url: 'sports/?p=' + p,
+      type: types.SET_SPORTS
+    },
+    type: types.RECEIVE
+  }
+}
+
+export function receiveGames11111111111() {
+  return {
+    meta: {
+      remote: true,
+      url: 'games',
+      type: types.SET_GAMES,
+    },
+    type: types.RECEIVE_GAMES
   };
+}
+
+export function editSport(id) {
+  return {
+    type: types.EDIT_SPORT,
+    key: id
+  }
+}
+
+export function setSport(key, state) {
+  return {
+    type: types.SET_SPORT,
+    key: key,
+    state: state
+  }
+}
+
+export function saveSport(item, resolve) {
+  return {
+    meta: {
+      resolve: resolve,
+      remote: true,
+      url: 'sports/',
+      options: {
+        method: 'post',
+        headers: {
+          'Content-type': 'application/json'
+        },
+        body: JSON.stringify(item),
+      },
+
+    },
+    type: types.SAVE,
+  }
 }

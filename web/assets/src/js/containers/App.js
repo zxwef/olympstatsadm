@@ -18,11 +18,12 @@ import * as types from "../constants/ActionTypes";
 import * as actions from '../actions/GamesActions'
 import * as reducers from "../reducers";
 
+import NoMatch from '../components/noMatch';
 import Login from '../components/login';
 import GamesListItems from '../components/gamesListItems';
+import Game from '../components/game';
+import Sports from '../components/sports';
 
-
-// http://redux.js.org/docs/api/applyMiddleware.html
 import remoteActionMiddleware from '../remote-action-middleware';
 const reducer = combineReducers(reducers);
 const createStoreWithMiddleware = applyMiddleware(remoteActionMiddleware)(createStore);
@@ -48,6 +49,9 @@ export default class App extends React.Component {
             <Router history={hashHistory}>
               <Route path="/" component={Login} />
               <Route path="/games" component={GamesListItems} />
+              <Route path="/game" component={Game} />
+              <Route path="/sports" component={Sports} />
+              <Route path="*" component={NoMatch} />
             </Router>
           </Provider>
         </div>

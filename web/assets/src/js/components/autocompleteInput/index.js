@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 
+import {fromJS} from 'immutable';
+
 import Autosuggest from 'react-autosuggest'; // http://react-autosuggest.js.org/
 
 // https://github.com/moroshko/react-autosuggest/blob/master/demo/standalone/app.js
@@ -29,22 +31,19 @@ export default class addGameForm extends Component { // eslint-disable-line no-u
   constructor() {
     super();
     this.state = {
-      value: '',
       suggestions: this.getSuggestions('')
     };
   }
 
   componentWillReceiveProps(nextProps) {
-    //console.info('componentWillReceiveProps', nextProps);
     this.setState({
       value: nextProps.value
     });
   }
 
   onChange = (event, { newValue }) => {
-    this.setState({
-      value: newValue
-    });
+    const state = (new Map()).set(this.props.inputName, newValue);
+    this.props.setState(fromJS(state));
   };
 
   onSuggestionsFetchRequested = ({ value }) => {
@@ -60,7 +59,9 @@ export default class addGameForm extends Component { // eslint-disable-line no-u
   };
 
   render() {
-    const { value, suggestions } = this.state;
+    const { suggestions } = this.state;
+
+    const value = this.props.entity.get(this.props.inputName);
 
     const inputProps = {
       placeholder: 'Страна',

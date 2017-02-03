@@ -2,7 +2,7 @@ import {fromJS} from 'immutable';
 
 export default store => next => action => {
   console.log('in middleware: ', action);
-  
+
   if(action.meta && action.meta.remote) {
     var options = {
       credentials: 'same-origin',
@@ -20,16 +20,16 @@ export default store => next => action => {
             obj['state'] = result.response;
           }
 
-          if(action.meta.type) {
+          if(action.meta.type) { // добавить нотификации (успешно ли сохранилось)
             obj['type'] = action.meta.type;
             store.dispatch(obj);
           } else if(action.meta.resolve) {
             action.meta.resolve();
           }
         })
-        .catch(function(err) {
+        /*.catch(function(err) {
           console.error('error: ' + err);
-        });
+        })*/;
   } else {
     return next(action);
   }

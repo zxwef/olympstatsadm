@@ -10,6 +10,7 @@ require_once __DIR__.'/../config/bootstrap.php';
 require_once __DIR__.'/utils.php';
 require_once __DIR__.'/UserProvider.php';
 
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
@@ -72,6 +73,7 @@ $app->before(function (Request $request) { // Parsing the request body
 *******************************************************************************/
 
 $app->mount('/api/1.0', include "api.php");
+$app->mount('/api/1.0/sports', new Controllers\SportsControllerProvider());
 
 $app->get('/', function() use($app) {
   return Utils::render("index.tpl.php");
@@ -80,6 +82,25 @@ $app->get('/', function() use($app) {
 $app->get('/login', function() use($app) {
   return Utils::render("login.layout.tpl.php");
 });
+
+/*$app->error(function (\Exception $e, Request $request, $code) {
+  switch ($code) {
+      case 404:
+          $message = array(
+            'status' => 'error',
+            'msg' => 'The requested page could not be found. '
+          );
+          break;
+      default:
+          $message = array(
+            'status' => 'error',
+            'msg' => 'We are sorry, but something went terribly wrong. '
+          );;
+  }
+
+  return new Response(json_encode($message));
+});
+*/
 
 $app->run();
 

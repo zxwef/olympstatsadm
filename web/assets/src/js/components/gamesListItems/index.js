@@ -11,17 +11,26 @@ export default class GamesListItems extends Component {
 
   constructor() {
     super();
-    //store.dispatch(actions.receiveCountries);
   }
 
   editGame(id) {
-    //$('#addGameModal').modal();
     this.refs.gameForm.openModal();
     this.props.receiveGame(id);
   }
 
+  deleteGame(id) {
+    if(confirm('Вы уверены в том, что хотите удалить запись #' + id)) {
+      var _this = this;
+      (new Promise(function(resolve){
+        _this.props.deleteGame(id, resolve);
+      }))
+      .then(function() {
+        _this.props.receiveGames();
+      })
+    }
+  }
+
   getItems() {
-    //console.info('getItems', this.props.state.get('items'));
     var items =
       this.props.games.get('items') ?
       this.props.games.get('items').map(game => {
@@ -33,7 +42,11 @@ export default class GamesListItems extends Component {
             <td>{season}</td>
             <td>{game.get('country')}</td>
             <td>{game.get('city')}</td>
-            <td><button type="button" class="btn btn-sm btn-default" onClick={() => this.editGame(game.get('id'))}>Редактировать</button></td>
+            <td>
+              <a href="#game" class="btn btn-sm btn-default" key={game.get('id')} >открыть</a> &nbsp;
+              <button type="button" class="btn btn-sm btn-warning" onClick={() => this.editGame(game.get('id'))}>Редактировать</button> &nbsp;
+              <button type="button" class="btn btn-sm btn-danger" onClick={() => this.deleteGame(game.get('id'))}>удалить</button>
+            </td>
           </tr>
         );
       }).toArray()
@@ -63,7 +76,6 @@ export default class GamesListItems extends Component {
             {items}
           </tbody>
         </table>
-        <button class="btn btn-default" onClick={this.props.check}>check!!!</button>
       </div>
     );
   }
